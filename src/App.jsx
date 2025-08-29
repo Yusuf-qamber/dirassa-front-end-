@@ -5,7 +5,7 @@ import SignIn from './components/SignIn/SignIn'
 import { Route, Routes } from 'react-router-dom'
 import * as authService from './services/authService.js'
 import { useState } from 'react'
-
+import Landing from './components/Landing/Landing'
 const App = () => {
 
   const initialState = authService.getUser()
@@ -39,7 +39,7 @@ const App = () => {
     <>
       <NavBar user={user} handleSignOut={handleSignOut} />
       <Routes>
-          <Route path='/' element={<h1>Hello world!</h1>} />
+          <Route path='/' element={<Landing />} />
           <Route path='/sign-up' element={<SignUp handleSignUp={handleSignUp} user={user} />} />
           <Route path='/sign-in' element={<SignIn handleSignIn={handleSignIn} user={user} />} />
           <Route path='*' element={<h1>404</h1>} />
