@@ -86,53 +86,57 @@ const deleteNote = async (noteId) => {
 }
 // Comments Section 
 
-const createComment = async (commentFormData, noteId) => {
-  const token = localStorage.getItem('token')
-  const res = await fetch(`${BASE_URL}/${noteId}/comments`, {
-    method: 'POST',
+const createComment = async (college, noteId, commentFormData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${BASE_URL}/${college}/notes/${noteId}/comments`, {
+    method: "POST",
     headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Bearer ${token}`
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(commentFormData)
-  })
-  const data = await res.json()
-  return data
-}
+    body: JSON.stringify(commentFormData),
+  });
+  const data = await res.json();
+  return data;
+};
 
-const updateComment = async (noteId , commentId,commentFormData) => {
-  try{
-      const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/${noteId}/comments/${commentId}`, {
-      method: 'PUT',
+
+const updateComment = async (college, noteId, commentId, commentFormData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(
+    `${BASE_URL}/${college}/notes/${noteId}/comments/${commentId}`,
+    {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-       body: JSON.stringify(commentFormData)
-    })
-    const data = await res.json()
-    return data
-  }
-   catch (err) {
-    console.log(err)
-  }
-}
+      body: JSON.stringify(commentFormData),
+    }
+  );
+  if (!res.ok) throw new Error("Failed to update comment");
+  const data = await res.json();
+  return data.comment; // ✅ unwrap it here
+};
 
-const deleteComment = async (noteId , commentId) => {
-  try{
-      const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/${noteId}/comments/${commentId}`, {
-      method: 'DELETE',
+
+
+
+const deleteComment = async (college, noteId, commentId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${BASE_URL}/${college}/notes/${noteId}/comments/${commentId}`, {
+      method: "DELETE",
       headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await res.json();
+  } catch (err) {
+    console.error(err);
   }
-   catch (err) {
-    console.log(err)
-  }
-}
+};
+
 
 export{
   index,
