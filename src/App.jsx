@@ -10,6 +10,7 @@ import { useEffect } from "react";
 import Landing from "./components/Landing/Landing";
 import College from "./components/College/College.jsx";
 import NoteList from "./components/NoteList/NoteList.jsx";
+import NoteDetails from "./components/NoteDetails/NoteDetails.jsx";
 
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
          <Route path="/" element={<Landing />} />
         <Route path="/:college" element={<College />} />
         <Route path="/:college/notes" element={<NoteList />} />
+        <Route path="/:college/notes/:noteId" element={<NoteDetails />} />
         <Route
           path="/sign-up"
           element={<SignUp handleSignUp={handleSignUp} user={user} />}

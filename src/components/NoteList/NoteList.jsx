@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
 
@@ -30,16 +30,13 @@ const NoteList = () => {
       <ul>
         {notes.map((note) => (
           <li key={note._id} className="note-card">
-            <h2>{note.title}</h2>
-
-            <p>{note.description}</p>
-            {note.file_url && (
-              <a href={note.file_url}>
-                Open File
-              </a>
-              
-            )}
-            <p>{note.owner?.username } <hr /> posted on {new Date(note.createdAt).toLocaleDateString()}</p>
+            <Link to={`/${college}/notes/${note._id}`}>
+              <h2>{note.title}</h2>
+              <span>
+                {note.owner?.username} <hr /> posted on{" "}
+                {new Date(note.createdAt).toLocaleDateString()}
+              </span>
+            </Link>
           </li>
         ))}
       </ul>
