@@ -56,7 +56,7 @@ const NoteDetails = (props) => {
 const handleUpdateComment = async (commentId) => {
   try {
     const updatedComment = await noteService.updateComment(
-      college,        // ✅ add this
+      college,      
       noteId,
       commentId,
       { content: editContent }
@@ -95,7 +95,10 @@ const handleUpdateComment = async (commentId) => {
         </p>
       )}
              {note.owner._id === props.user._id && (
+   <>   
+      <Link to={`/${college}/notes/${noteId}/edit`}>Edit</Link>       
   <button onClick={() => props.handleDeleteNote(college, noteId)}>Delete</button>
+  </>
 )}
 
       <section>
