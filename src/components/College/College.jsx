@@ -8,6 +8,7 @@ const { college } = useParams()
     <h1>{college.toUpperCase()} College</h1>
     <ul>
       <li><Link to={`/${college}/notes`}>Notes</Link></li>
+      <li></li>
     </ul>
     </>
   )

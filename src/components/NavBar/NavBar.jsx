@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
-
+import { useParams } from 'react-router-dom'
 const NavBar = (props) => {
+const { college } = useParams()
 
 
 
@@ -10,6 +11,7 @@ const NavBar = (props) => {
         <ul>
           <li>Welcome {props.user.username}</li>
           <li><Link to="/"> Home </Link></li>
+
           <li><Link to='/' onClick={props.handleSignOut}>Sign Out</Link></li>
         </ul>
         ) : (
