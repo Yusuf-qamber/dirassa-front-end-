@@ -46,17 +46,17 @@ const navigate = useNavigate();
 
 
 
-const handleAddNote = async (noteFormData) => {
- const newNote = await noteService.create(noteFormData);
-  setHoots([newNote, ...notes]);  
-  navigate('/notes');
-};
+// const handleAddNote = async (noteFormData) => {
+//  const newNote = await noteService.create(noteFormData);
+//   setHoots([newNote, ...notes]);  
+//   navigate('/notes');
+// };
 
 
-const handleSubmit = (evt) => {
-  evt.preventDefault();
-  props.handleAddNote(formData);
-};
+// const handleSubmit = (evt) => {
+//   evt.preventDefault();
+//   props.handleAddNote(formData);
+// };
 
   return (
     <>
