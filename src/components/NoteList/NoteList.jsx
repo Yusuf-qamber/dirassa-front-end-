@@ -27,6 +27,9 @@ const NoteList = () => {
   return (
     <main className="note-list-container">
       <h1>{college} Notes</h1>
+      <li>
+        <Link to={`/${college}/notes/new`}>Add a Note</Link>
+      </li>
       <ul>
         {notes.map((note) => (
           <li key={note._id} className="note-card">
