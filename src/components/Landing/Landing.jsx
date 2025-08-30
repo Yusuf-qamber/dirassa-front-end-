@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 
 
-const colleges = ["IT", "Business", "Science", "Law","Engineering","Art"];
+const colleges = ["it", "business", "science", "law","engineering","art"];
 
 
 const Landing = () =>{
@@ -13,12 +13,12 @@ return(
         {colleges.map((college,index) => (
           <Link
             key={index}
-            to={`/${college.toLowerCase()}`} 
+            to={`/${college}`} 
             className="college-card"
             
           >
             <br />
-            {college}
+            {college.toUpperCase()}
           </Link>
         ))}
       </div>
