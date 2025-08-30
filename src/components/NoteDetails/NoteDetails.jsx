@@ -1,6 +1,5 @@
 import { useParams, Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-
 import * as noteService from "../../services/noteService.js";
 import CommentForm from "../CommentForm/CommentForm.jsx";
 
@@ -95,6 +94,9 @@ const handleUpdateComment = async (commentId) => {
           </a>
         </p>
       )}
+             {note.owner._id === props.user._id && (
+  <button onClick={() => props.handleDeleteNote(college, noteId)}>Delete</button>
+)}
 
       <section>
         <h2>Comments</h2>
