@@ -69,10 +69,10 @@ const updateNote = async (formData, noteId) => {
   }
 }
 
-const deleteNote = async (noteId) => {
+const deleteNote = async (noteId,college) => {
   try {
     const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/${noteId}`, {
+     const res = await fetch(`${BASE_URL}/${college}/notes/${noteId}`, {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`

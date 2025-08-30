@@ -19,7 +19,7 @@ const navigate = useNavigate();
 
   const initialState = authService.getUser();
   const [user, setUser] = useState(initialState);
- 
+
 
   const handleSignUp = async (formData) => {
     try {
@@ -48,7 +48,7 @@ const navigate = useNavigate();
 
 // const handleAddNote = async (noteFormData) => {
 //  const newNote = await noteService.create(noteFormData);
-//   setHoots([newNote, ...notes]);  
+//   setNotes([newNote, ...notes]);  
 //   navigate('/notes');
 // };
 
@@ -58,6 +58,19 @@ const navigate = useNavigate();
 //   props.handleAddNote(formData);
 // };
 
+
+
+const handleDeleteNote = async (college, noteId) => {
+  try {
+    await noteService.deleteNote(noteId, college);
+    navigate(`/${college}/notes`);
+  } catch (err) {
+    console.error("Error deleting note:", err);
+  }
+};
+
+
+
   return (
     <>
       <NavBar user={user} handleSignOut={handleSignOut} />
@@ -66,7 +79,7 @@ const navigate = useNavigate();
         <Route path="/:college" element={<College />} />
         <Route path="/:college/notes" element={<NoteList />} />
 
-        <Route path="/:college/notes/:noteId" element={<NoteDetails user={user}/>} />
+        <Route path="/:college/notes/:noteId" element={<NoteDetails user={user} handleDeleteNote={handleDeleteNote}/>} />
 
         <Route path="/:college/notes/new" element={<NoteForm />} />
 
