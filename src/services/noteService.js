@@ -33,10 +33,10 @@ const showNote = async (college, noteId) => {
 }
 
 
-const createNote = async (formData) => {
+const createNote = async (formData,college) => {
   try {
     const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/`, {
+     const res = await fetch(`${BASE_URL}/${college}/notes`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

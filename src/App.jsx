@@ -2,8 +2,7 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-import { Route, Routes } from "react-router-dom";
-import * as authService from "./services/authService.js";
+import { Routes, Route, useNavigate } from 'react-router-dom';import * as authService from "./services/authService.js";
 import * as noteService from "./services/noteService.js";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -11,10 +10,12 @@ import Landing from "./components/Landing/Landing";
 import College from "./components/College/College.jsx";
 import NoteList from "./components/NoteList/NoteList.jsx";
 import NoteDetails from "./components/NoteDetails/NoteDetails.jsx";
+import NoteForm from "./components/NoteForm/NoteForm.jsx";
 
 
 const App = () => {
 
+const navigate = useNavigate();
 
   const initialState = authService.getUser();
   const [user, setUser] = useState(initialState);
@@ -43,6 +44,20 @@ const App = () => {
     setUser(res);
   };
 
+
+
+const handleAddNote = async (noteFormData) => {
+ const newNote = await noteService.create(noteFormData);
+  setHoots([newNote, ...notes]);  
+  navigate('/notes');
+};
+
+
+const handleSubmit = (evt) => {
+  evt.preventDefault();
+  props.handleAddNote(formData);
+};
+
   return (
     <>
       <NavBar user={user} handleSignOut={handleSignOut} />
@@ -50,7 +65,12 @@ const App = () => {
          <Route path="/" element={<Landing />} />
         <Route path="/:college" element={<College />} />
         <Route path="/:college/notes" element={<NoteList />} />
+
         <Route path="/:college/notes/:noteId" element={<NoteDetails user={user}/>} />
+
+        <Route path="/:college/notes/new" element={<NoteForm />} />
+
+
         <Route
           path="/sign-up"
           element={<SignUp handleSignUp={handleSignUp} user={user} />}
