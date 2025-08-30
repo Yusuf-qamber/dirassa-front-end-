@@ -6,31 +6,46 @@ const NoteForm = (props) => {
   const navigate = useNavigate();
 
   const { college } = useParams();
-
+const {noteId} = useParams();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     file_url: "",
   });
 
-  const handleChange = (evt) => {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
-  };
 
-  const handleSubmit = async (evt) => {
-    evt.preventDefault();
-    try {
-      await noteService.createNote(formData, college);
-      navigate(`/${college}/notes`);
-    } catch (err) {
-      console.error("Failed to create note:", err);
+  useEffect(() => {
+    const fetchNote = async () => {
+      const data = await noteService.showNote(college,noteId)
+      setFormData(data)
     }
-  };
+    if (noteId) fetchNote()
+  }, [college,noteId])
+
+	const handleChange = (evt) => {
+		setFormData({ ...formData, [evt.target.name]: evt.target.value })
+	}
+
+const handleSubmit = async (evt) => {
+  evt.preventDefault();
+
+  if (noteId) {
+    // update
+    await props.handleUpdateNote(college, noteId, formData);
+    navigate(`/${college}/notes/${noteId}`);
+  } else {
+    // create
+    await noteService.createNote(formData, college);
+    navigate(`/${college}/notes`);
+  }
+};
+
 
   return (
     <main>
-      <h1> Add a Note</h1>
+
       <form onSubmit={handleSubmit}>
+        <h1>{noteId?'Edit Note':'Add a Note'}</h1>
         <label htmlFor="title">Title</label>
         <input
           required

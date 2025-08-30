@@ -69,6 +69,7 @@ const handleDeleteNote = async (college, noteId) => {
   }
 };
 
+const handleUpdateNote = async (college, noteId, noteFormData) => { await noteService.updateNote(noteFormData, college, noteId); navigate(`/${college}/notes/${noteId}`); }
 
 
   return (
@@ -78,10 +79,11 @@ const handleDeleteNote = async (college, noteId) => {
          <Route path="/" element={<Landing />} />
         <Route path="/:college" element={<College />} />
         <Route path="/:college/notes" element={<NoteList />} />
-
+<Route path="/:college/notes/new" element={<NoteForm />} />
         <Route path="/:college/notes/:noteId" element={<NoteDetails user={user} handleDeleteNote={handleDeleteNote}/>} />
+ <Route path="/:college/notes/:noteId/edit" element={<NoteForm handleUpdateNote={handleUpdateNote} />} />
 
-        <Route path="/:college/notes/new" element={<NoteForm />} />
+        
 
 
         <Route

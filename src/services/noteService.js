@@ -50,25 +50,26 @@ const createNote = async (formData,college) => {
     console.log(err)
   }
 }
-
-const updateNote = async (formData, noteId) => {
+const updateNote = async (formData, college, noteId) => {
   try {
-    const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/${noteId}`, {
-      method: 'PUT',
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${BASE_URL}/${college}/notes/${noteId}`, {
+      method: "PUT",
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(formData)
-    })
-    const data = await res.json()
-    return data
-  } catch (err) {
-    console.log(err)
-  }
-}
+      body: JSON.stringify(formData),
+    });
 
+    if (!res.ok) throw new Error(`Failed to update note: ${res.status}`);
+
+    const data = await res.json();
+    return data;
+  } catch (err) {
+    console.error(err);
+  }
+};
 const deleteNote = async (noteId,college) => {
   try {
     const token = localStorage.getItem('token')
@@ -116,7 +117,7 @@ const updateComment = async (college, noteId, commentId, commentFormData) => {
   );
   if (!res.ok) throw new Error("Failed to update comment");
   const data = await res.json();
-  return data.comment; // ✅ unwrap it here
+  return data.comment;
 };
 
 
