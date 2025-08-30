@@ -16,20 +16,22 @@ const index = async (college) => {
   }
 }
 
-const showNote = async (noteId) => {
+const showNote = async (college, noteId) => {
   try {
     const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/${noteId}`, {
+    const res = await fetch(`${BASE_URL}/${college}/notes/${noteId}`, {
       headers: {
-        Authorization: `Bearer ${token}`
-      }
+        Authorization: `Bearer ${token}`,
+      },
     })
+    if (!res.ok) throw new Error(`Failed to fetch note: ${res.status}`)
     const data = await res.json()
     return data
   } catch (err) {
-    console.log(err)
+    console.error(err)
   }
 }
+
 
 const createNote = async (formData) => {
   try {
