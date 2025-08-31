@@ -5,13 +5,14 @@ import SignIn from "./components/SignIn/SignIn";
 import { Routes, Route, useNavigate,Navigate } from 'react-router-dom';import * as authService from "./services/authService.js";
 import * as noteService from "./services/noteService.js";
 import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect,useContext } from "react";
 import Landing from "./components/Landing/Landing";
 import College from "./components/College/College.jsx";
 import NoteList from "./components/NoteList/NoteList.jsx";
 import NoteDetails from "./components/NoteDetails/NoteDetails.jsx";
 import NoteForm from "./components/NoteForm/NoteForm.jsx";
-
+import EventList from "./components/EventList/EventList.jsx";
+import * as eventService from "./services/eventServics.js";
 
 const App = () => {
 
@@ -19,6 +20,8 @@ const navigate = useNavigate();
 
   const initialState = authService.getUser();
   const [user, setUser] = useState(initialState);
+
+  // const [events,setEvents]=useState([])
 
 
   const handleSignUp = async (formData) => {
@@ -83,7 +86,7 @@ const handleUpdateNote = async (college, noteId, noteFormData) => { await noteSe
         <Route path="/:college/notes/:noteId" element={<NoteDetails user={user} handleDeleteNote={handleDeleteNote}/>} />
  <Route path="/:college/notes/:noteId/edit" element={<NoteForm handleUpdateNote={handleUpdateNote} />} />
 
-        
+        <Route path="/:college/events" element={<EventList />} />
 
 
         <Route
