@@ -14,6 +14,8 @@ import NoteForm from "./components/NoteForm/NoteForm.jsx";
 import EventList from "./components/EventList/EventList.jsx";
 import * as eventServics from "./services/eventServics.js";
 import EventDetails from "./components/EventDetails/EventDetails.jsx";
+import EventForm from "./components/EventForm/EventForm.jsx";
+
 const App = () => {
 
 const navigate = useNavigate();
@@ -74,6 +76,20 @@ const handleDeleteNote = async (college, noteId) => {
 
 const handleUpdateNote = async (college, noteId, noteFormData) => { await noteService.updateNote(noteFormData, college, noteId); navigate(`/${college}/notes/${noteId}`); }
 
+const handleDeleteEvent = async (college, eventId) => {
+  try {
+    await eventServices.deleteEvent(eventId, college);
+    navigate(`/${college}/events`);
+  } catch (err) {
+    console.error("Error deleting event:", err);
+  }
+};
+
+const handleUpdateEvent = async (college,eventId, noteFormData) => { 
+  await eventServices.updateEvent(noteFormData, college, eventId); navigate(`/${college}/event/${eventId}`); 
+}
+
+
 
   return (
     <>
@@ -91,6 +107,7 @@ const handleUpdateNote = async (college, noteId, noteFormData) => { await noteSe
 
         <Route path="/:college/events" element={<EventList />} />
 
+        <Route path="/:college/events/new" element={<EventForm />} />
 
         <Route
           path="/sign-up"
