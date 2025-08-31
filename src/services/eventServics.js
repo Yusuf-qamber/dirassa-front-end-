@@ -19,7 +19,7 @@ const index = async (college) => {
 const showEvent = async (college, eventId) => {
   try {
     const token = localStorage.getItem('token')
-    const res = await fetch(`${BASE_URL}/${college}/events/${noteId}`, {
+    const res = await fetch(`${BASE_URL}/${college}/events/${eventId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

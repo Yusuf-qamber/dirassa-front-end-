@@ -1,6 +1,6 @@
 import { Link, useParams, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import * as eventService from "../../services/eventServics";
+import * as eventServics from "../../services/eventServics";
 
 const validColleges = [
   "it",
@@ -23,7 +23,7 @@ const EventList = () => {
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const data = await eventService.index(college);
+        const data = await eventServics.index(college);
         setEvents(data);
       } catch (err) {
         console.error(err);
