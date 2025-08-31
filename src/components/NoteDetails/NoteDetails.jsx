@@ -98,17 +98,21 @@ const handleUpdateComment = async (commentId) => {
           </a>
         </p>
       )}
-             {note.owner._id === props.user._id && (
-   <>   
-      <Link to={`/${college}/notes/${noteId}/edit`}>Edit</Link>       
-  <button onClick={() => props.handleDeleteNote(college, noteId)}>Delete</button>
+{note.owner?._id === props.user?._id && (
+  <>   
+    <Link to={`/${college}/notes/${noteId}/edit`}>Edit</Link>       
+    <button onClick={() => props.handleDeleteNote(college, noteId)}>Delete</button>
   </>
 )}
 
       <section>
         <h2>Comments</h2>
-        <CommentForm handleAddComment={handleAddComment} />
-
+        {props.user ? (
+    <CommentForm handleAddComment={handleAddComment} user={props.user} />
+  ) : (
+    <p>You must be logged in to comment.</p>
+  )}
+ 
         {!note.comments.length && <p>There are no comments.</p>}
 
         {note.comments.map((comment) => (
@@ -118,7 +122,7 @@ const handleUpdateComment = async (commentId) => {
                 {comment.author?.username} posted on{" "}
                 {new Date(comment.createdAt).toLocaleDateString()}
               </p>
-
+              
               {props.user && props.user._id === comment.author._id && (
                 <>
                   <button onClick={() => handleDeleteComment(comment._id)}>
