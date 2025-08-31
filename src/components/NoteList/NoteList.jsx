@@ -1,9 +1,14 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams,Navigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
 
+const validColleges = ["it", "business", "science", "law", "engineering", "art"];
 const NoteList = () => {
   const { college } = useParams();
+    if (!validColleges.includes(college)) {
+    return <Navigate to="/" replace />;
+  }
+
   const [notes, setNotes] = useState([]);
   const [loading, setLoading] = useState(true);
 
