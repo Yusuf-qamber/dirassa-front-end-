@@ -2,7 +2,7 @@ import "./App.css";
 import NavBar from "./components/NavBar/NavBar";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";
-import { Routes, Route, useNavigate } from 'react-router-dom';import * as authService from "./services/authService.js";
+import { Routes, Route, useNavigate,Navigate } from 'react-router-dom';import * as authService from "./services/authService.js";
 import * as noteService from "./services/noteService.js";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -94,8 +94,9 @@ const handleUpdateNote = async (college, noteId, noteFormData) => { await noteSe
           path="/sign-in"
           element={<SignIn handleSignIn={handleSignIn} user={user} />}
         />
+        <Route path="/404" element={<h1>404 Not Found</h1>} />
 
-        <Route path="*" element={<h1>404</h1>} />
+        <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
     </>
 
