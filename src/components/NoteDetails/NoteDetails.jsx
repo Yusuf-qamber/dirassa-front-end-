@@ -1,9 +1,11 @@
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link ,Navigate ,useNavigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
 import CommentForm from "../CommentForm/CommentForm.jsx";
 
+
 const NoteDetails = (props) => {
+  const navigate=useNavigate()
   const { college, noteId } = useParams();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -17,6 +19,7 @@ const NoteDetails = (props) => {
         setNote(data);
       } catch (err) {
         console.error(err);
+        setNote(null);
       } finally {
         setLoading(false);
       }
@@ -25,7 +28,8 @@ const NoteDetails = (props) => {
   }, [college, noteId]);
 
   if (loading) return <p>Loading note...</p>;
-  if (!note) return <p>Note not found.</p>;
+  if (!note) return<Navigate to={`/${college}/notes`} replace />
+  //  <p>Note not found.</p>;
 
   const handleAddComment = async (commentFormData) => {
     const newComment = await noteService.createComment(
