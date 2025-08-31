@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
 
 const validColleges = ["it", "business", "science", "law", "engineering", "art"];
-const NoteList = () => {
+const NoteList = (props) => {
   const { college } = useParams();
     if (!validColleges.includes(college)) {
     return <Navigate to="/" replace />;
@@ -27,15 +27,18 @@ const NoteList = () => {
   }, [college]);
 
   if (loading) return <p>Loading...</p>;
-  if (!notes.length) return <p>No notes found {college}</p>;
+  // if (!notes.length) return <p>No notes found {college}</p>;
 
   return (
     <main className="note-list-container">
       <h1>{college} Notes</h1>
-      <li>
+      {props.user?(
+        <li>
         <Link to={`/${college}/notes/new`}>Add a Note</Link>
       </li>
-      <ul>
+      ):""}
+      {!notes.length?(<p>No notes found {college}</p>):(
+        <ul>
         {notes.map((note) => (
           <li key={note._id} className="note-card">
             <Link to={`/${college}/notes/${note._id}`}>
@@ -48,6 +51,8 @@ const NoteList = () => {
           </li>
         ))}
       </ul>
+      )}
+      
     </main>
   );
 };
