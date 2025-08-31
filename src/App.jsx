@@ -12,8 +12,8 @@ import NoteList from "./components/NoteList/NoteList.jsx";
 import NoteDetails from "./components/NoteDetails/NoteDetails.jsx";
 import NoteForm from "./components/NoteForm/NoteForm.jsx";
 import EventList from "./components/EventList/EventList.jsx";
-import * as eventService from "./services/eventServics.js";
-
+import * as eventServics from "./services/eventServics.js";
+import EventDetails from "./components/EventDetails/EventDetails.jsx";
 const App = () => {
 
 const navigate = useNavigate();
@@ -84,6 +84,9 @@ const handleUpdateNote = async (college, noteId, noteFormData) => { await noteSe
         <Route path="/:college/notes" element={<NoteList />} />
 <Route path="/:college/notes/new" element={<NoteForm />} />
         <Route path="/:college/notes/:noteId" element={<NoteDetails user={user} handleDeleteNote={handleDeleteNote}/>} />
+        
+        <Route path="/:college/events/:eventId" element={<EventDetails user={user} handleDeleteNote={handleDeleteNote}/>} />
+
  <Route path="/:college/notes/:noteId/edit" element={<NoteForm handleUpdateNote={handleUpdateNote} />} />
 
         <Route path="/:college/events" element={<EventList />} />
