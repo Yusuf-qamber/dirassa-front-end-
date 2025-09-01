@@ -85,11 +85,58 @@ const deleteEvent = async (eventId,college) => {
     console.log(err)
   }
 }
+const createComment = async (college, eventId, commentFormData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(`${BASE_URL}/${college}/events/${eventId}/comments`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(commentFormData),
+  });
+  const data = await res.json();
+  return data;
+};
+const updateComment = async (college, eventId, commentId, commentFormData) => {
+  const token = localStorage.getItem("token");
+  const res = await fetch(
+    `${BASE_URL}/${college}/events/${eventId}/comments/${commentId}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(commentFormData),
+    }
+  );
+  if (!res.ok) throw new Error("Failed to update comment");
+  const data = await res.json();
+  return data.comment;
+};
+const deleteComment = async (college, eventId, commentId) => {
+  try {
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${BASE_URL}/${college}/events/${eventId}/comments/${commentId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return await res.json();
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 export{
   index,
   showEvent,
   createEvent,
   updateEvent,
-  deleteEvent
+  deleteEvent,
+  createComment,
+  updateComment,
+  deleteComment,
 }

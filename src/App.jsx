@@ -92,7 +92,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/:college" element={<College />} />
-        <Route path="/:college/notes" element={<NoteList />} />
+        <Route path="/:college/notes" element={<NoteList user={user} />} />
         <Route path="/:college/notes/new" element={<NoteForm />} />
         <Route
           path="/:college/notes/:noteId"
@@ -113,7 +113,7 @@ const App = () => {
           element={<NoteForm handleUpdateNote={handleUpdateNote} />}
         />
 
-        <Route path="/:college/events" element={<EventList />} />
+        <Route path="/:college/events" element={<EventList user={user} />} />
 
         <Route path="/:college/events/new" element={<EventForm />} />
 

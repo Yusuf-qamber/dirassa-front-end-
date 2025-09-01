@@ -11,7 +11,7 @@ const validColleges = [
   "art",
 ];
 
-const EventList = () => {
+const EventList = (props) => {
   const { college } = useParams();
   if (!validColleges.includes(college)) {
     return <Navigate to="/" replace />;
@@ -35,15 +35,19 @@ const EventList = () => {
   }, [college]);
 
   if (loading) return <p>Loading...</p>;
-  if (!events.length) return <p>No events found in {college}</p>;
-
+  // if (!events.length) return <p>No events found in {college}</p>;
+// console.log(props.user)
   return(
+    
         <main className="event-list-container">
       <h1>{college} Events</h1>
-      <li>
+      {props.user?(
+              <li>       
         <Link to={`/${college}/events/new`}>Add an Event</Link>
       </li>
-      <ul>
+      ):""}
+        {!events.length?(<p>No events found in {college}</p>):(
+          <ul>
         {events.map((event) => (
           <li key={event._id} className="event-card">
             <Link to={`/${college}/events/${event._id}`}>
@@ -56,6 +60,8 @@ const EventList = () => {
           </li>
         ))}
       </ul>
+        )}
+      
     </main>
   )
 };
