@@ -1,47 +1,61 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as eventServices from "../../services/eventServics";
-const EventForm=(props)=>{
+import MapBox from "../MapBox/MapBox.jsx";
+import 'mapbox-gl/dist/mapbox-gl.css';
+
+const EventForm = (props) => {
   const navigate = useNavigate();
-  const { college } = useParams();
-  const {eventId} = useParams();
+  const { college, eventId } = useParams();
+
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    location: "",
+    location: "", 
+    coordinates: null, 
   });
 
-    useEffect(() => {
+  useEffect(() => {
     const fetchEvent = async () => {
-      const data = await eventServices.showEvent(college,eventId)
-      setFormData(data)
+      const data = await eventServices.showEvent(college, eventId);
+      setFormData({
+        title: data.title,
+        description: data.description,
+        location: `${data.coordinates.lat},${data.coordinates.lng}`,
+        coordinates: data.coordinates,
+      });
+    };
+    if (eventId) fetchEvent();
+  }, [college, eventId]);
+
+  const handleChange = (evt) => {
+    const { name, value } = evt.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    const payload = {
+      title: formData.title,
+      description: formData.description,
+      coordinates: formData.coordinates,
+      location: `${formData.coordinates.lat},${formData.coordinates.lng}`, 
+    };
+
+    if (eventId) {
+      await props.handleUpdateEvent(college, eventId, payload);
+      navigate(`/${college}/events/${eventId}`);
+    } else {
+      await eventServices.createEvent(payload, college);
+      navigate(`/${college}/events`);
     }
-    if (eventId) fetchEvent()
-  }, [college,eventId])
+  };
 
-  	const handleChange = (evt) => {
-		setFormData({ ...formData, [evt.target.name]: evt.target.value })
-	}
-
-const handleSubmit = async (evt) => {
-  evt.preventDefault();
-
-  if (eventId) {
-    // update
-    await props.handleUpdateEvent(college, eventId, formData);
-    navigate(`/${college}/events/${eventId}`);
-  } else {
-    // create
-    await eventServices.createEvent(formData, college);
-    navigate(`/${college}/events`);
-  }
-};
-
-return (
+  return (
     <main>
-
       <form onSubmit={handleSubmit}>
-        <h1>{eventId?'Edit Event':'Add an Event'}</h1>
+        <h1>{eventId ? "Edit Event" : "Add an Event"}</h1>
+
         <label htmlFor="title">Title</label>
         <input
           required
@@ -51,6 +65,7 @@ return (
           value={formData.title}
           onChange={handleChange}
         />
+
         <label htmlFor="description">Description</label>
         <textarea
           required
@@ -60,7 +75,7 @@ return (
           onChange={handleChange}
         />
 
-        <label htmlFor="location">Location</label>
+        <label htmlFor="location">Location coordinate: </label>
         <input
           required
           type="text"
@@ -68,13 +83,24 @@ return (
           id="location"
           value={formData.location}
           onChange={handleChange}
+          disabled={true}
+        />
+
+        <MapBox
+          coordinates={formData.coordinates}
+          onLocationChange={(coords) => {
+            setFormData({
+              ...formData,
+              coordinates: coords,
+              location: `${coords.lat.toFixed(6)},${coords.lng.toFixed(6)}`,
+            });
+          }}
         />
 
         <button type="submit">SUBMIT</button>
       </form>
     </main>
-)
+  );
+};
 
-}
-
-export default EventForm
+export default EventForm;
