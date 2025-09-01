@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import NavBar from "./components/NavBar/NavBar";
 import SignUp from "./components/SignUp/SignUp";
 import SignIn from "./components/SignIn/SignIn";

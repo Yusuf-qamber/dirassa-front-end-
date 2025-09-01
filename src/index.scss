@@ -1,0 +1,29 @@
+/* index.scss */
+$primary-bg: #F9F7F7; 
+$primary-color: #112D4E; 
+
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+html, body, #root {
+  height: 100%;
+  background-color: $primary-bg;
+  color: $primary-color;
+}
+
+#root {
+  height: 100%;
+  // background: url('./assets/axiom-pattern.png') repeat;
+
+  
+  background-size: auto;
+  background-position: center;
+}
+
+
+

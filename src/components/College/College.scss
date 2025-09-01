@@ -1,0 +1,102 @@
+$primary: #112D4E;
+$secondary: #3F72AF;
+$light: #F9F7F7;
+$accent: #DBE2EF;
+
+.college-page {
+  background: $light;
+  min-height: auto; // lets content define height
+  padding: 3rem 2rem; // more balanced top/bottom spacing
+  text-align: center;
+
+  .college-title {
+    font-size: 2.75rem; // slightly bigger
+    color: $primary;
+    margin-bottom: 1.5rem; // reduced spacing to grid
+    font-weight: 700;
+    letter-spacing: 1px;
+    position: relative;
+
+    &::after {
+      content: "";
+      display: block;
+      width: 80px;
+      height: 4px;
+      background: $secondary;
+      margin: 0.5rem auto 0;
+      border-radius: 2px;
+      animation: growLine 1s ease forwards;
+    }
+  }
+}
+
+// Optional: smaller spacing between stacked sections
+.college-page + .college-page {
+  margin-top: 2rem;
+}
+
+.college-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // larger cards
+  gap: 1.5rem; // reduced gap
+  justify-items: center;
+}
+
+.college-card {
+  background: linear-gradient(135deg, $primary, $secondary);
+  color: $light;
+  width: 100%;
+  max-width: 340px; // bigger card
+  padding: 2.5rem; // more space inside
+  border-radius: 1rem;
+  text-decoration: none;
+  transition: all 0.4s ease;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-10px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+
+    &::before {
+      transform: rotate(25deg) translateX(150%);
+    }
+  }
+
+  &::before {
+    content: "</>";
+    position: absolute;
+    font-size: 5rem;
+    font-weight: bold;
+    color: rgba(255, 255, 255, 0.07);
+    top: 10px;
+    left: -40px;
+    transform: rotate(-20deg);
+    transition: transform 0.6s ease;
+  }
+
+  &__content {
+    z-index: 2;
+    position: relative;
+
+    h2 {
+      margin-bottom: 0.5rem;
+      font-size: 1.75rem; // larger heading
+    }
+
+    p {
+      font-size: 1rem; // slightly bigger text
+      color: $accent;
+    }
+  }
+}
+
+@keyframes growLine {
+  from {
+    width: 0;
+  }
+  to {
+    width: 80px;
+  }
+}
