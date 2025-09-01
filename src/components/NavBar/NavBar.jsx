@@ -1,27 +1,32 @@
-import { Link } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
-const NavBar = (props) => {
-const { college } = useParams()
+import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import './NavBar.scss';
 
-
+const NavBar = ({ user, handleSignOut }) => {
+  const { college } = useParams();
 
   return (
-    <nav>
-      {props.user ? (
-        <ul>
-          <li>Welcome {props.user.username}</li>
-          <li><Link to="/"> Home </Link></li>
+    <nav className="navbar">
+      <div className="navbar__logo">
+        <Link to="/">Dirassa</Link>
+      </div>
 
-          <li><Link to='/' onClick={props.handleSignOut}>Sign Out</Link></li>
-        </ul>
+      <ul className="navbar__menu">
+        {user ? (
+          <>
+            <li className="navbar__welcome">Hi, {user.username}</li>
+            <li><Link to="/">Home</Link></li>
+            <li><Link to="/" onClick={handleSignOut}>Sign Out</Link></li>
+          </>
         ) : (
-          <ul>
+          <>
             <li><Link to="/sign-up">Sign Up</Link></li>
             <li><Link to="/sign-in">Sign In</Link></li>
-          </ul>
-          ) }
+          </>
+        )}
+      </ul>
     </nav>
-  )
-}
+  );
+};
 
-export default NavBar 
+export default NavBar;
