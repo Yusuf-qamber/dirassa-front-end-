@@ -1,6 +1,7 @@
 import { Link, useParams,Navigate} from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
+import './NoteList.scss';
 
 const validColleges = ["it", "business", "science", "law", "engineering", "art"];
 const NoteList = (props) => {
@@ -27,7 +28,7 @@ const NoteList = (props) => {
   }, [college]);
 
   if (loading) return <p>Loading...</p>;
-  // if (!notes.length) return <p>No notes found {college}</p>;
+
 
   return (
     <main className="note-list-container">

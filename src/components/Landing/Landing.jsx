@@ -13,16 +13,18 @@ const colleges = [
 const Landing = () => {
   return (
     <main className="landing-page">
-      <h1>Colleges</h1>
-      <div className="college-container">
-        {colleges.map((college, index) => (
-          <div key={index} className="college-card-wrapper">
-            <Link to={`/${college.name}`} className="college-card">
-              <span className="icon">{college.icon}</span>
-              <span className="label">{college.name.toUpperCase()}</span>
-            </Link>
-          </div>
-        ))}
+      <div className="landing-container">
+        <h1>Colleges</h1>
+        <div className="college-container">
+          {colleges.map((college, index) => (
+            <div key={index} className="college-card-wrapper">
+              <Link to={`/${college.name}`} className="college-card">
+                <span className="icon">{college.icon}</span>
+                <span className="label">{college.name.toUpperCase()}</span>
+              </Link>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
