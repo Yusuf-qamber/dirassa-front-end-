@@ -1,97 +1,103 @@
-$primary: #112D4E;
-$secondary: #3F72AF;
-$light: #F9F7F7;
-$accent: #DBE2EF;
-
 .college-page {
-  background: $light;
-  min-height: auto; // lets content define height
-  padding: 3rem 2rem; // more balanced top/bottom spacing
+  background: #F9F7F7; /* light */
+  min-height: auto; /* let content define height */
+  padding: 3rem 2rem;
   text-align: center;
-
-  .college-title {
-    font-size: 2.75rem; // slightly bigger
-    color: $primary;
-    margin-bottom: 1.5rem; // reduced spacing to grid
-    font-weight: 700;
-    letter-spacing: 1px;
-    position: relative;
-
-    &::after {
-      content: "";
-      display: block;
-      width: 80px;
-      height: 4px;
-      background: $secondary;
-      margin: 0.5rem auto 0;
-      border-radius: 2px;
-      animation: growLine 1s ease forwards;
-    }
-  }
+  max-width: 1000px;
+  margin: 2rem auto;
+  border-radius: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
-// Optional: smaller spacing between stacked sections
+/* Section title */
+.college-title {
+  font-size: 2.75rem;
+  color: #112D4E; /* primary */
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  position: relative;
+}
+
+.college-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  background: #3F72AF; /* secondary */
+  margin: 0.5rem auto 0;
+  border-radius: 2px;
+  animation: growLine 1s ease forwards;
+}
+
+/* Optional: spacing between stacked sections */
 .college-page + .college-page {
   margin-top: 2rem;
 }
 
+/* Grid of college cards */
 .college-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); // larger cards
-  gap: 1.5rem; // reduced gap
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
   justify-items: center;
+  width: 100%;
 }
 
+/* College cards */
 .college-card {
-  background: linear-gradient(135deg, $primary, $secondary);
-  color: $light;
+  background: linear-gradient(135deg, #112D4E, #3F72AF);
+  color: #F9F7F7; /* light text */
   width: 100%;
-  max-width: 340px; // bigger card
-  padding: 2.5rem; // more space inside
+  max-width: 340px;
+  padding: 2.5rem;
   border-radius: 1rem;
   text-decoration: none;
   transition: all 0.4s ease;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   position: relative;
   overflow: hidden;
-
-  &:hover {
-    transform: translateY(-10px) scale(1.03);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-
-    &::before {
-      transform: rotate(25deg) translateX(150%);
-    }
-  }
-
-  &::before {
-    content: "</>";
-    position: absolute;
-    font-size: 5rem;
-    font-weight: bold;
-    color: rgba(255, 255, 255, 0.07);
-    top: 10px;
-    left: -40px;
-    transform: rotate(-20deg);
-    transition: transform 0.6s ease;
-  }
-
-  &__content {
-    z-index: 2;
-    position: relative;
-
-    h2 {
-      margin-bottom: 0.5rem;
-      font-size: 1.75rem; // larger heading
-    }
-
-    p {
-      font-size: 1rem; // slightly bigger text
-      color: $accent;
-    }
-  }
 }
 
+.college-card:hover {
+  transform: translateY(-10px) scale(1.03);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+}
+
+.college-card::before {
+  content: "</>";
+  position: absolute;
+  font-size: 5rem;
+  font-weight: bold;
+  color: rgba(255, 255, 255, 0.07);
+  top: 10px;
+  left: -40px;
+  transform: rotate(-20deg);
+  transition: transform 0.6s ease;
+}
+
+.college-card:hover::before {
+  transform: rotate(25deg) translateX(150%);
+}
+
+/* Card content */
+.college-card__content {
+  z-index: 2;
+  position: relative;
+}
+
+.college-card__content h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.75rem;
+}
+
+.college-card__content p {
+  font-size: 1rem;
+  color: #DBE2EF; /* accent */
+}
+
+/* Animation for title underline */
 @keyframes growLine {
   from {
     width: 0;
