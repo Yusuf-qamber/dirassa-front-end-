@@ -3,6 +3,8 @@ import { useState, useEffect } from "react";
 import CommentForm from "../CommentForm/CommentForm.jsx";
 import * as eventServics from "../../services/eventServics.js";
 import MapBox from "../MapBox/MapBox.jsx";
+import { FaTrash, FaPen } from "react-icons/fa";
+import "./EventDetails.scss";
 
 const EventDetails = (props) => {
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ const EventDetails = (props) => {
     fetchEvent();
   }, [college, eventId]);
 
-  if (loading) return <p>Loading event...</p>;
+  if (loading) return <p className="loading">Loading event...</p>;
   if (!event) return <Navigate to={`/${college}/events`} replace />;
 
   const handleAddComment = async (commentFormData) => {
@@ -79,79 +81,119 @@ const EventDetails = (props) => {
   };
 
   return (
-    <main className="event-details-container">
-      <Link to={`/${college}/events`}>⬅ Back to Events</Link>
+    <main className="event-details">
+      <div className="event-card">
+        <h2 className="title">{event.title}</h2>
 
-      <h1>{event.title}</h1>
-      <p>
-        By: {event.owner?.username || "Unknown"} | Posted on:{" "}
-        {new Date(event.createdAt).toLocaleDateString()}
-      </p>
-      <p>{event.description}</p>
+        <div className="meta">
+          <span>
+            By: <strong>{event.owner?.username || "Unknown"}</strong>
+          </span>
+          <span>Posted on: {new Date(event.createdAt).toLocaleDateString()}</span>
+        </div>
 
-      <p>{event.location}</p>
- <MapBox
-  coordinates={event.coordinates} 
-  onLocationChange={() => {}}
-  readOnly={true}
-/>
+        <p className="description">{event.description}</p>
+        <p className="location">📍 {event.location}</p>
 
+        <div className="map-wrap">
+          <MapBox
+            coordinates={event.coordinates}
+            onLocationChange={() => {}}
+            readOnly={true}
+          />
+        </div>
 
-      {event.owner?._id === props.user?._id && (
-        <>
-          <Link to={`/${college}/events/${eventId}/edit`}>Edit</Link>
-          <button onClick={() => props.handleDeleteEvent(college, eventId)}>
-            Delete
-          </button>
-        </>
-      )}
+        {event.owner?._id === props.user?._id && (
+          <div className="actions">
+            <Link to={`/${college}/events/${eventId}/edit`} className="btn edit">
+              Edit
+            </Link>
+            <button
+              onClick={() => props.handleDeleteEvent(college, eventId)}
+              className="btn delete"
+            >
+              Delete
+            </button>
+          </div>
+        )}
 
-      <section>
-        <h2>Comments</h2>
+        {/* Centered Back to Events button below actions */}
+        <div className="back-link-wrapper">
+          <Link to={`/${college}/events`} className="back-link-btn">
+            Back to Events
+          </Link>
+        </div>
+      </div>
+
+      <section className="comments-section">
+        <h3 className="section-title">Comments</h3>
+
         {props.user ? (
           <CommentForm handleAddComment={handleAddComment} user={props.user} />
         ) : (
-          <p>You must be logged in to comment.</p>
+          <p className="muted">You must be logged in to comment.</p>
         )}
 
-        {!event.comments.length && <p>There are no comments.</p>}
+        {!event.comments.length && (
+          <p className="no-comments">There are no comments.</p>
+        )}
 
-        {event.comments.map((comment) => (
-          <article key={comment._id}>
-            <header>
-              <p>
-                {comment.author?.username} posted on{" "}
-                {new Date(comment.createdAt).toLocaleDateString()}
-              </p>
+        {event.comments.length > 0 && (
+          <div className="comments-list">
+            {event.comments.map((comment) => (
+              <article key={comment._id} className="comment">
+                <div className="author">
+                  {comment.author?.username} {" "}
+                  {new Date(comment.createdAt).toLocaleDateString()}
+                </div>
 
-              {props.user && props.user._id === comment.author._id && (
-                <>
-                  <button onClick={() => handleDeleteComment(comment._id)}>
-                    Delete
-                  </button>
-                  <button onClick={() => handleEditClick(comment)}>Edit</button>
-                </>
-              )}
-            </header>
+                {editingCommentId === comment._id ? (
+                  <div className="edit-block">
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                    />
+                    <div className="edit-actions">
+                      <button
+                        onClick={() => handleUpdateComment(comment._id)}
+                        className="btn save"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setEditingCommentId(null)}
+                        className="btn cancel"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text">{comment.content}</p>
+                )}
 
-            {editingCommentId === comment._id ? (
-              <>
-                <textarea
-                  value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                />
-                <button onClick={() => handleUpdateComment(comment._id)}>
-                  Save
-                </button>
-                <button onClick={() => setEditingCommentId(null)}>
-                  Cancel
-                </button>
-              </>
-            ) : (
-              <p>{comment.content}</p>
-            )}
-          </article>
-        ))}
+                {props.user && props.user._id === comment.author._id && (
+                  <div className="row-actions">
+                    <button
+                      onClick={() => handleEditClick(comment)}
+                      className="icon-btn"
+                      title="Edit"
+                    >
+                      <FaPen />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteComment(comment._id)}
+                      className="icon-btn danger"
+                      title="Delete"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+        )}
       </section>
     </main>
   );
