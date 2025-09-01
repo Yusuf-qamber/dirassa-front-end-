@@ -1,11 +1,11 @@
-import { useParams, Link ,Navigate ,useNavigate} from "react-router-dom";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import CommentForm from "../CommentForm/CommentForm.jsx";
 import * as eventServics from "../../services/eventServics.js";
-// import eventServices from 
+import MapBox from "../MapBox/MapBox.jsx";
 
 const EventDetails = (props) => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const { college, eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ const EventDetails = (props) => {
   }, [college, eventId]);
 
   if (loading) return <p>Loading event...</p>;
-  if (!event) return<Navigate to={`/${college}/events`} replace />
+  if (!event) return <Navigate to={`/${college}/events`} replace />;
 
   const handleAddComment = async (commentFormData) => {
     const newComment = await eventServics.createComment(
@@ -56,28 +56,27 @@ const EventDetails = (props) => {
     setEditContent(comment.content);
   };
 
-const handleUpdateComment = async (commentId) => {
-  try {
-    const updatedComment = await eventServics.updateComment(
-      college,      
-      eventId,
-      commentId,
-      { content: editContent }
-    );
+  const handleUpdateComment = async (commentId) => {
+    try {
+      const updatedComment = await eventServics.updateComment(
+        college,
+        eventId,
+        commentId,
+        { content: editContent }
+      );
 
-    setEvent({
-      ...event,
-      comments: event.comments.map((c) =>
-        c._id === commentId ? updatedComment : c
-      ),
-    });
-    setEditingCommentId(null);
-    setEditContent("");
-  } catch (err) {
-    console.error("Error updating comment:", err);
-  }
-};
-
+      setEvent({
+        ...event,
+        comments: event.comments.map((c) =>
+          c._id === commentId ? updatedComment : c
+        ),
+      });
+      setEditingCommentId(null);
+      setEditContent("");
+    } catch (err) {
+      console.error("Error updating comment:", err);
+    }
+  };
 
   return (
     <main className="event-details-container">
@@ -90,22 +89,31 @@ const handleUpdateComment = async (commentId) => {
       </p>
       <p>{event.description}</p>
 
-     <p>{event.location}</p> 
-{event.owner?._id === props.user?._id && (
-  <>   
-    <Link to={`/${college}/events/${eventId}/edit`}>Edit</Link>       
-    <button onClick={() => props.handleDeleteEvent(college, eventId)}>Delete</button>
-  </>
-)}
+      <p>{event.location}</p>
+ <MapBox
+  coordinates={event.coordinates} 
+  onLocationChange={() => {}}
+  readOnly={true}
+/>
+
+
+      {event.owner?._id === props.user?._id && (
+        <>
+          <Link to={`/${college}/events/${eventId}/edit`}>Edit</Link>
+          <button onClick={() => props.handleDeleteEvent(college, eventId)}>
+            Delete
+          </button>
+        </>
+      )}
 
       <section>
         <h2>Comments</h2>
         {props.user ? (
-    <CommentForm handleAddComment={handleAddComment} user={props.user} />
-  ) : (
-    <p>You must be logged in to comment.</p>
-  )}
- 
+          <CommentForm handleAddComment={handleAddComment} user={props.user} />
+        ) : (
+          <p>You must be logged in to comment.</p>
+        )}
+
         {!event.comments.length && <p>There are no comments.</p>}
 
         {event.comments.map((comment) => (
@@ -115,7 +123,7 @@ const handleUpdateComment = async (commentId) => {
                 {comment.author?.username} posted on{" "}
                 {new Date(comment.createdAt).toLocaleDateString()}
               </p>
-              
+
               {props.user && props.user._id === comment.author._id && (
                 <>
                   <button onClick={() => handleDeleteComment(comment._id)}>
@@ -135,7 +143,9 @@ const handleUpdateComment = async (commentId) => {
                 <button onClick={() => handleUpdateComment(comment._id)}>
                   Save
                 </button>
-                <button onClick={() => setEditingCommentId(null)}>Cancel</button>
+                <button onClick={() => setEditingCommentId(null)}>
+                  Cancel
+                </button>
               </>
             ) : (
               <p>{comment.content}</p>
