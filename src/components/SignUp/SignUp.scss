@@ -1,0 +1,112 @@
+$primary: #112D4E;
+$secondary: #3F72AF;
+$light: #F9F7F7;
+$accent: #DBE2EF;
+
+.auth-container {
+  background: $light;
+  min-height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
+
+  form {
+    background: white;
+    padding: 2.5rem 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+
+    h1 {
+      color: $primary;
+      margin-bottom: 1.5rem;
+    }
+
+    label {
+      display: block;
+      text-align: left;
+      font-weight: 600;
+      color: $primary;
+      margin-bottom: 0.3rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      margin-bottom: 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid $accent;
+      font-size: 1rem;
+
+      &:focus {
+        outline: none;
+        border-color: $secondary;
+      }
+    }
+
+    button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      background: $secondary;
+      color: $light;
+      font-weight: 600;
+      border: none;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: $primary;
+      }
+
+      &:disabled {
+        background: $accent;
+        cursor: not-allowed;
+      }
+    }
+
+    .toggle-link {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      color: $secondary;
+      cursor: pointer;
+      text-decoration: underline;
+
+      &:hover {
+        color: $primary;
+      }
+    }
+  }
+}
+.fade-in {
+  opacity: 0;
+  transform: translateY(-20px);
+  animation: fadeInSlide 0.5s forwards;
+}
+
+@keyframes fadeInSlide {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.toggle-text {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+
+  .toggle-link {
+    color: $secondary;
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: 600;
+
+    &:hover {
+      color: $primary;
+    }
+  }
+}

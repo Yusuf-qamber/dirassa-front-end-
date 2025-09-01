@@ -1,68 +1,63 @@
-import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import "./SignUp.scss";
 
 const SignUp = (props) => {
-  const navigate = useNavigate()
-
-  const initialState = {
-    username: '',
-    password: '',
-    passwordConf: '',
-  }
-
-  const [formData, setFormData] = useState(initialState)
-  const [error, setError] = useState(null)
-
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: "",
+    password: "",
+    passwordConf: "",
+  });
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (props.user) {
-      navigate('/')
-    }
-  }, [props.user])
+    if (props.user) navigate("/");
+  }, [props.user]);
 
   const handleChange = (evt) => {
-    setFormData({...formData, [evt.target.name]: evt.target.value})
-  }
+    setFormData({ ...formData, [evt.target.name]: evt.target.value });
+  };
 
-  // made this function asynchronous
   const handleSubmit = async (evt) => {
-    evt.preventDefault()  
-    // saved the return as "result"
-    const result = await props.handleSignUp(formData)
-    // if sign up is succssful, navigate to home
-    if (result.success){
-      navigate('/')
-    } else {
-      // otherwise, set the error message state 
-      setError(result.message)
-    }
-  }
+    evt.preventDefault();
+    const result = await props.handleSignUp(formData);
+    if (result.success) navigate("/");
+    else setError(result.message);
+  };
 
-  let formIsInvalid = true
-
-  if (formData.username && formData.password && formData.password === formData.passwordConf) {
-    formIsInvalid = false
-  }
+  const formIsInvalid =
+    !formData.username ||
+    !formData.password ||
+    formData.password !== formData.passwordConf;
 
   return (
-    <main>
-      <h1>Sign up Form</h1>
-      {/* add error message display to form */}
-      {error}
-      <form onSubmit={handleSubmit}>
+    <div className="auth-container">
+      <form className="fade-in">
+        <h1>Sign Up</h1>
+        {error && <p className="error">{error}</p>}
         <label>Username:</label>
-        <input type="text" name='username' onChange={handleChange} />
-        <br />
+        <input type="text" name="username" onChange={handleChange} />
         <label>Password:</label>
-        <input type="password" name='password' onChange={handleChange} />
-        <br />
+        <input type="password" name="password" onChange={handleChange} />
         <label>Confirm Password:</label>
         <input type="password" name="passwordConf" onChange={handleChange} />
-        <br />
-        <button type="submit" disabled={formIsInvalid}>Sign up</button>
-      </form>
-    </main>
-  )
-}
+        <button type="submit" onClick={handleSubmit} disabled={formIsInvalid}>
+          Sign Up
+        </button>
 
-export default SignUp
+        <p className="toggle-text">
+          Already have an account?{" "}
+          <span
+            className="toggle-link"
+            onClick={() => navigate("/sign-in")}
+          >
+            Sign In
+          </span>
+        </p>
+      </form>
+    </div>
+  );
+};
+
+export default SignUp;
