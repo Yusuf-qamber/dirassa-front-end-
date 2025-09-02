@@ -1,11 +1,12 @@
-import { useParams, Link ,Navigate ,useNavigate} from "react-router-dom";
+import { useParams, Link, Navigate, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
 import CommentForm from "../CommentForm/CommentForm.jsx";
-
+import "./NoteDetails.scss";
+import { FaTrash, FaPen } from "react-icons/fa";
 
 const NoteDetails = (props) => {
-  const navigate=useNavigate()
+  const navigate = useNavigate();
   const { college, noteId } = useParams();
   const [note, setNote] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,8 +29,7 @@ const NoteDetails = (props) => {
   }, [college, noteId]);
 
   if (loading) return <p>Loading note...</p>;
-  if (!note) return<Navigate to={`/${college}/notes`} replace />
-  //  <p>Note not found.</p>;
+  if (!note) return <Navigate to={`/${college}/notes`} replace />;
 
   const handleAddComment = async (commentFormData) => {
     const newComment = await noteService.createComment(
@@ -57,99 +57,138 @@ const NoteDetails = (props) => {
     setEditContent(comment.content);
   };
 
-const handleUpdateComment = async (commentId) => {
-  try {
-    const updatedComment = await noteService.updateComment(
-      college,      
-      noteId,
-      commentId,
-      { content: editContent }
-    );
-
-    setNote({
-      ...note,
-      comments: note.comments.map((c) =>
-        c._id === commentId ? updatedComment : c
-      ),
-    });
-    setEditingCommentId(null);
-    setEditContent("");
-  } catch (err) {
-    console.error("Error updating comment:", err);
-  }
-};
-
+  const handleUpdateComment = async (commentId) => {
+    try {
+      const updatedComment = await noteService.updateComment(
+        college,
+        noteId,
+        commentId,
+        { content: editContent }
+      );
+      setNote({
+        ...note,
+        comments: note.comments.map((c) =>
+          c._id === commentId ? updatedComment : c
+        ),
+      });
+      setEditingCommentId(null);
+      setEditContent("");
+    } catch (err) {
+      console.error("Error updating comment:", err);
+    }
+  };
 
   return (
     <main className="note-details-container">
-      <Link to={`/${college}/notes`}>⬅ Back to Notes</Link>
+      
 
-      <h1>{note.title}</h1>
-      <p>
-        By: {note.owner?.username || "Unknown"} | Posted on:{" "}
-        {new Date(note.createdAt).toLocaleDateString()}
-      </p>
-      <p>{note.description}</p>
-
-      {note.file_url && (
-        <p>
-          <a href={note.file_url} target="_blank" rel="noreferrer">
-            Open File
-          </a>
+      {/* Note info card */}
+      <div className="card note-card">
+        <h1>{note.title}</h1>
+        <p className="meta">
+          By: {note.owner?.username || "Unknown"} | Posted on:{" "}
+          {new Date(note.createdAt).toLocaleDateString()}
         </p>
-      )}
-{note.owner?._id === props.user?._id && (
-  <>   
-    <Link to={`/${college}/notes/${noteId}/edit`}>Edit</Link>       
-    <button onClick={() => props.handleDeleteNote(college, noteId)}>Delete</button>
-  </>
-)}
+        <p className="description">{note.description}</p>
 
-      <section>
+        {note.file_url && (
+          <p className="file-link">
+            <a href={note.file_url} target="_blank" rel="noreferrer">
+              Open File
+            </a>
+          </p>
+        )}
+
+        {note.owner?._id === props.user?._id && (
+          <div className="actions">
+            <Link
+              to={`/${college}/notes/${noteId}/edit`}
+              className="btn edit"
+            >
+              Edit
+            </Link>
+            <button
+              className="btn delete"
+              onClick={() => props.handleDeleteNote(college, noteId)}
+            >
+              Delete
+            </button>
+            
+          </div>
+        )}
+          <div className="back-link-wrapper">
+    <Link to={`/${college}/notes`} className="back-link-btn">
+      Back to Notes
+    </Link>
+  </div>
+      </div>
+
+      {/* Comments card */}
+      <div className="card comments-section">
         <h2>Comments</h2>
+
         {props.user ? (
-    <CommentForm handleAddComment={handleAddComment} user={props.user} />
-  ) : (
-    <p>You must be logged in to comment.</p>
-  )}
- 
-        {!note.comments.length && <p>There are no comments.</p>}
+          <CommentForm handleAddComment={handleAddComment} user={props.user} />
+        ) : (
+          <p className="muted">You must be logged in to comment.</p>
+        )}
 
-        {note.comments.map((comment) => (
-          <article key={comment._id}>
-            <header>
-              <p>
-                {comment.author?.username} posted on{" "}
-                {new Date(comment.createdAt).toLocaleDateString()}
-              </p>
-              
-              {props.user && props.user._id === comment.author._id && (
-                <>
-                  <button onClick={() => handleDeleteComment(comment._id)}>
-                    Delete
-                  </button>
-                  <button onClick={() => handleEditClick(comment)}>Edit</button>
-                </>
+        {!note.comments.length && (
+          <p className="no-comments">There are no comments.</p>
+        )}
+
+        <div className="comments-list">
+          {note.comments.map((comment) => (
+            <article key={comment._id} className="comment">
+
+
+              {editingCommentId === comment._id ? (
+                <div className="edit-block">
+                  <textarea
+                    value={editContent}
+                    onChange={(e) => setEditContent(e.target.value)}
+                  />
+                  <div className="edit-actions">
+                    <button
+                      className="btn save"
+                      onClick={() => handleUpdateComment(comment._id)}
+                    >
+                      Save
+                    </button>
+                    <button
+                      className="btn cancel"
+                      onClick={() => setEditingCommentId(null)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p className="text">{comment.content}</p>
               )}
-            </header>
 
-            {editingCommentId === comment._id ? (
-              <>
-                <textarea
-                  value={editContent}
-                  onChange={(e) => setEditContent(e.target.value)}
-                />
-                <button onClick={() => handleUpdateComment(comment._id)}>
-                  Save
-                </button>
-                <button onClick={() => setEditingCommentId(null)}>Cancel</button>
-              </>
-            ) : (
-              <p>{comment.content}</p>
-            )}
-          </article>
-        ))}
-      </section>
+                {props.user && props.user._id === comment.author._id && (
+                  <div className="row-actions">
+                    <button
+                      onClick={() => handleEditClick(comment)}
+                      className="icon-btn"
+                      title="Edit"
+                    >
+                      <FaPen />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteComment(comment._id)}
+                      className="icon-btn danger"
+                      title="Delete"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                )}
+            </article>
+          ))}
+        </div>
+      </div>
     </main>
   );
 };
