@@ -33,7 +33,7 @@ const SignUp = (props) => {
 
   return (
     <div className="auth-container">
-      <form className="fade-in">
+      <form className="fade-in" onSubmit={handleSubmit}>
         <h1>Sign Up</h1>
         {error && <p className="error">{error}</p>}
         <label>Username:</label>
@@ -42,7 +42,7 @@ const SignUp = (props) => {
         <input type="password" name="password" onChange={handleChange} />
         <label>Confirm Password:</label>
         <input type="password" name="passwordConf" onChange={handleChange} />
-        <button type="submit" onClick={handleSubmit} disabled={formIsInvalid}>
+        <button type="submit" disabled={formIsInvalid}>
           Sign Up
         </button>
 

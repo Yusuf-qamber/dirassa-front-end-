@@ -22,13 +22,13 @@ const SignIn = (props) => {
 
   return (
     <div className="auth-container">
-      <form className="fade-in">
+      <form className="fade-in" onSubmit={handleSubmit}>
         <h1>Sign In</h1>
         <label>Username:</label>
         <input type="text" name="username" onChange={handleChange} />
         <label>Password:</label>
         <input type="password" name="password" onChange={handleChange} />
-        <button type="submit" onClick={handleSubmit}>
+        <button type="submit">
           Sign In
         </button>
 

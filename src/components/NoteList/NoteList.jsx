@@ -1,12 +1,19 @@
-import { Link, useParams,Navigate} from "react-router-dom";
+import { Link, useParams, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import * as noteService from "../../services/noteService.js";
-import './NoteList.scss';
+import "./NoteList.scss";
 
-const validColleges = ["it", "business", "science", "law", "engineering", "art"];
+const validColleges = [
+  "it",
+  "business",
+  "science",
+  "law",
+  "engineering",
+  "art",
+];
 const NoteList = (props) => {
   const { college } = useParams();
-    if (!validColleges.includes(college)) {
+  if (!validColleges.includes(college)) {
     return <Navigate to="/" replace />;
   }
 
@@ -29,31 +36,33 @@ const NoteList = (props) => {
 
   if (loading) return <p>Loading...</p>;
 
-
   return (
     <main className="note-list-container">
-      <h1>{college} Notes</h1>
-      {props.user?(
+      <h1>{college === "it" ? college.toLocaleUpperCase() : college} Notes</h1>
+      {props.user ? (
         <li>
-        <Link to={`/${college}/notes/new`}>Add a Note</Link>
-      </li>
-      ):""}
-      {!notes.length?(<p>No notes found {college}</p>):(
-        <ul>
-        {notes.map((note) => (
-          <li key={note._id} className="note-card">
-            <Link to={`/${college}/notes/${note._id}`}>
-              <h2>{note.title}</h2>
-              <span>
-                {note.owner?.username} <hr /> posted on{" "}
-                {new Date(note.createdAt).toLocaleDateString()}
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul>
+          <Link to={`/${college}/notes/new`}>Add a Note</Link>
+        </li>
+      ) : (
+        ""
       )}
-      
+      {!notes.length ? (
+        <p>No notes found {college}</p>
+      ) : (
+        <ul>
+          {notes.map((note) => (
+            <li key={note._id} className="note-card">
+              <Link to={`/${college}/notes/${note._id}`}>
+                <h2>{note.title}</h2>
+                <span>
+                  {note.owner?.username} <hr /> posted on{" "}
+                  {new Date(note.createdAt).toLocaleDateString()}
+                </span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </main>
   );
 };

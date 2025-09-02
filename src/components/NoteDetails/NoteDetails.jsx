@@ -127,8 +127,8 @@ const NoteDetails = (props) => {
       </div>
 
      
-      <div className="card comments-section">
-        <h2>Comments</h2>
+      <section className="comments-section">
+        <h3 className="section-title">Comments</h3>
 
         {props.user ? (
           <CommentForm handleAddComment={handleAddComment} user={props.user} />
@@ -140,35 +140,39 @@ const NoteDetails = (props) => {
           <p className="no-comments">There are no comments.</p>
         )}
 
-        <div className="comments-list">
-          {note.comments.map((comment) => (
-            <article key={comment._id} className="comment">
-
-
-              {editingCommentId === comment._id ? (
-                <div className="edit-block">
-                  <textarea
-                    value={editContent}
-                    onChange={(e) => setEditContent(e.target.value)}
-                  />
-                  <div className="edit-actions">
-                    <button
-                      className="btn save"
-                      onClick={() => handleUpdateComment(comment._id)}
-                    >
-                      Save
-                    </button>
-                    <button
-                      className="btn cancel"
-                      onClick={() => setEditingCommentId(null)}
-                    >
-                      Cancel
-                    </button>
-                  </div>
+        {note.comments.length > 0 && (
+          <div className="comments-list">
+            {note.comments.map((comment) => (
+              <article key={comment._id} className="comment">
+                <div className="author">
+                  {comment.author?.username} {" "}
+                  {new Date(comment.createdAt).toLocaleDateString()}
                 </div>
-              ) : (
-                <p className="text">{comment.content}</p>
-              )}
+
+                {editingCommentId === comment._id ? (
+                  <div className="edit-block">
+                    <textarea
+                      value={editContent}
+                      onChange={(e) => setEditContent(e.target.value)}
+                    />
+                    <div className="edit-actions">
+                      <button
+                        onClick={() => handleUpdateComment(comment._id)}
+                        className="btn save"
+                      >
+                        Save
+                      </button>
+                      <button
+                        onClick={() => setEditingCommentId(null)}
+                        className="btn cancel"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <p className="text">{comment.content}</p>
+                )}
 
                 {props.user && props.user._id === comment.author._id && (
                   <div className="row-actions">
@@ -188,10 +192,11 @@ const NoteDetails = (props) => {
                     </button>
                   </div>
                 )}
-            </article>
-          ))}
-        </div>
-      </div>
+              </article>
+            ))}
+          </div>
+        )}
+      </section>
     </main>
   );
 };

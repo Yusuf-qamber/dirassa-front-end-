@@ -1,112 +1,101 @@
-$primary: #112D4E;
-$secondary: #3F72AF;
-$light: #F9F7F7;
-$accent: #DBE2EF;
-
 .auth-container {
-  background: $light;
-  min-height: 80vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  font-family: "Arial", sans-serif;
 
   form {
-    background: white;
-    padding: 2.5rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
     border-radius: 1rem;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
     width: 100%;
     max-width: 400px;
-    text-align: center;
-    transition: transform 0.6s ease, opacity 0.6s ease;
+    animation: fadeIn 0.6s ease-in-out;
 
     h1 {
-      color: $primary;
+      text-align: center;
       margin-bottom: 1.5rem;
+      color: #ffffff;
     }
 
     label {
       display: block;
-      text-align: left;
+      margin: 0.5rem 0 0.25rem;
       font-weight: 600;
-      color: $primary;
-      margin-bottom: 0.3rem;
+      color: #f0f0f0;
     }
 
     input {
       width: 100%;
-      padding: 0.75rem 1rem;
-      margin-bottom: 1rem;
+      padding: 0.75rem;
+      border: none;
       border-radius: 0.5rem;
-      border: 1px solid $accent;
-      font-size: 1rem;
+      margin-bottom: 1rem;
+      outline: none;
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+
+      &::placeholder {
+        color: rgba(255, 255, 255, 0.7);
+      }
 
       &:focus {
-        outline: none;
-        border-color: $secondary;
+        background: rgba(255, 255, 255, 0.3);
       }
     }
 
     button {
       width: 100%;
       padding: 0.75rem 1rem;
-      background: $secondary;
-      color: $light;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #ffffff;
       font-weight: 600;
       border: none;
       border-radius: 0.5rem;
       cursor: pointer;
-      transition: background 0.3s ease;
+      transition: opacity 0.3s ease;
 
       &:hover {
-        background: $primary;
+        opacity: 0.85;
       }
 
       &:disabled {
-        background: $accent;
+        background: rgba(255, 255, 255, 0.3);
+        color: rgba(255, 255, 255, 0.7);
         cursor: not-allowed;
       }
     }
 
-    .toggle-link {
+    .toggle-text {
       margin-top: 1rem;
-      font-size: 0.9rem;
-      color: $secondary;
-      cursor: pointer;
-      text-decoration: underline;
+      text-align: center;
+      color: #f0f0f0;
 
-      &:hover {
-        color: $primary;
+      .toggle-link {
+        color: #ffffff;
+        font-weight: bold;
+        cursor: pointer;
+        transition: color 0.3s;
+
+        &:hover {
+          color: #ffd369;
+        }
       }
     }
   }
 }
-.fade-in {
-  opacity: 0;
-  transform: translateY(-20px);
-  animation: fadeInSlide 0.5s forwards;
-}
 
-@keyframes fadeInSlide {
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-15px);
+  }
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.toggle-text {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-
-  .toggle-link {
-    color: $secondary;
-    cursor: pointer;
-    text-decoration: underline;
-    font-weight: 600;
-
-    &:hover {
-      color: $primary;
-    }
   }
 }
