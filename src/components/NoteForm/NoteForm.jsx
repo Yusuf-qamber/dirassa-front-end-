@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import * as noteService from "../../services/noteService";
+import "./NoteForm.scss";
 
 const NoteForm = (props) => {
   const navigate = useNavigate();
@@ -42,41 +43,39 @@ const handleSubmit = async (evt) => {
 
 
   return (
-    <main>
+ <main className="note-form-container">
+  <form onSubmit={handleSubmit}>
+    <h1>{noteId ? 'Edit Note' : 'Add a Note'}</h1>
+    <label htmlFor="title">Title</label>
+    <input
+      required
+      type="text"
+      name="title"
+      id="title"
+      value={formData.title}
+      onChange={handleChange}
+    />
+    <label htmlFor="description">Description</label>
+    <textarea
+      required
+      name="description"
+      id="description"
+      value={formData.description}
+      onChange={handleChange}
+    />
+    <label htmlFor="file_url">File URL</label>
+    <input
+      required
+      type="text"
+      name="file_url"
+      id="file_url"
+      value={formData.file_url}
+      onChange={handleChange}
+    />
+    <button type="submit">SUBMIT</button>
+  </form>
+</main>
 
-      <form onSubmit={handleSubmit}>
-        <h1>{noteId?'Edit Note':'Add a Note'}</h1>
-        <label htmlFor="title">Title</label>
-        <input
-          required
-          type="text"
-          name="title"
-          id="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
-        <label htmlFor="description">Description</label>
-        <textarea
-          required
-          name="description"
-          id="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
-
-        <label htmlFor="file_url">File URL</label>
-        <input
-          required
-          type="text"
-          name="file_url"
-          id="file_url"
-          value={formData.file_url}
-          onChange={handleChange}
-        />
-
-        <button type="submit">SUBMIT</button>
-      </form>
-    </main>
   );
 };
 

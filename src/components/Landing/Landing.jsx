@@ -14,7 +14,7 @@ const Landing = () => {
   return (
     <main className="landing-page">
       <div className="landing-container">
-        <h1>Colleges</h1>
+        
         <div className="college-container">
           {colleges.map((college, index) => (
             <div key={index} className="college-card-wrapper">
