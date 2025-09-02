@@ -1,12 +1,65 @@
-# React + Vite
+# Dirassa
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Dirassa Logo](Landing.png)
 
-Currently, two official plugins are available:
+Dirassa is a web application designed to help students discover and explore academic resources. Users can browse notes under a specific college, view details, and stay updated on related events. Our platform provides an intuitive and interactive experience, helping students stay organized and connected within their academic community.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Getting Started
+
+
+- **Deployed App:** [View Dirassa Online](https://dirassa-front-end.vercel.app/)  
+- **Planning Materials:** [View Planning Docs](https://trello.com/b/1ij8wTIg/project-4)  
+- **Back-End Repository:** [View Back-End Code](https://github.com/Yusuf-qamber/Dirassa-backend)
+
+---
+
+## Technologies Used
+
+- JavaScript 
+- React
+- SCSS 
+- Node.js
+- Express.js
+- Heroku
+- Mongodb
+
+---
+## Dependencies
+
+```JSON
+  "dependencies": {
+    "mapbox-gl": "^3.14.0",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0",
+    "react-icons": "^5.5.0",
+    "react-map-gl": "^7.1.7",
+    "react-router-dom": "^7.7.1"
+  }
+  ```
+## Attributions
+
+- [Google Fonts](https://fonts.google.com/) 
+<!-- - [react Icons](https://www.google.com/search?q=react+icons&ie=UTF-8) -->
+- [Mapbox](mapbox.com)
+
+---
+
+## Next Steps
+
+- Adding the option to sign up or sign in with Google
+- Adding a like button for each note and event
+- Improving mobile responsiveness
+- Adding a search bar for easier searching
+- Adding a live chat section
+- Adding a lost and found feature
+- Adding a schedule planner
+- Adding a GPA calculator
+- Allowing users to upload files from their local devices
+- Adding Cloudinary to allow users to upload images
+
+
+## Landing Page
+![Dirassa Logo](Landing.png)
