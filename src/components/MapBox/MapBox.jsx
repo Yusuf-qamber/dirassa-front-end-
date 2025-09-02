@@ -26,7 +26,7 @@ const MapBox = ({ coordinates, onLocationChange, readOnly = false }) => {
         zoom: 12,
       }}
       style={{ width: "100%", height: 400 }}
-      mapStyle="mapbox://styles/mapbox/streets-v11"
+      mapStyle="mapbox://styles/mapbox/satellite-streets-v12"
       mapboxAccessToken={import.meta.env.VITE_MAPBOX_TOKEN}
       onClick={(e) => {
         if (!readOnly) {

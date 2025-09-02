@@ -1,10 +1,13 @@
-import { Link } from "react-router-dom";
+import { Link,Navigate } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import "./College.scss";
+const validColleges = ["it", "business", "science", "law", "engineering", "art"];
 
 const College = () => {
   const { college } = useParams();
-
+    if (!validColleges.includes(college)) {
+    return <Navigate to="/" replace />;
+  }
   return (
     <main className="college-page">
       <h1 className="college-title">{college.toUpperCase()} College</h1>
