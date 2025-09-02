@@ -31,7 +31,7 @@ const EventList = (props) => {
 
   return (
 <main className="event-list-container">
-  <h1>{college} Events</h1>
+        <h1>{college === "it" ? college.toLocaleUpperCase() : college} Events</h1>
 
   {props.user && (
     <div className="add-event">
