@@ -117,7 +117,7 @@ const EventDetails = (props) => {
           </div>
         )}
 
-        {/* Centered Back to Events button below actions */}
+
         <div className="back-link-wrapper">
           <Link to={`/${college}/events`} className="back-link-btn">
             Back to Events
