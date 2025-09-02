@@ -1,108 +1,220 @@
 .college-page {
-  background: #F9F7F7; /* light */
-  min-height: auto; /* let content define height */
-  padding: 3rem 2rem;
-  text-align: center;
-  max-width: 1000px;
-  margin: 2rem auto;
-  border-radius: 1.5rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-  border: 1px solid rgba(0, 0, 0, 0.05);
+  min-height: 100vh;
+  padding: var(--space-20) var(--space-4) var(--space-8);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Section title */
 .college-title {
-  font-size: 2.75rem;
-  color: #112D4E; /* primary */
-  margin-bottom: 1.5rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  position: relative;
+  font-size: 3.5rem;
+  font-weight: var(--font-bold);
+  color: white;
+  text-align: center;
+  margin-bottom: var(--space-16);
+  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 0.8s ease-out;
+  letter-spacing: 0.02em;
+
+  @media (max-width: 768px) {
+    font-size: 2.5rem;
+    margin-bottom: var(--space-12);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+    margin-bottom: var(--space-8);
+  }
 }
 
-.college-title::after {
-  content: "";
-  display: block;
-  width: 80px;
-  height: 4px;
-  background: #3F72AF; /* secondary */
-  margin: 0.5rem auto 0;
-  border-radius: 2px;
-  animation: growLine 1s ease forwards;
-}
-
-/* Optional: spacing between stacked sections */
-.college-page + .college-page {
-  margin-top: 2rem;
-}
-
-/* Grid of college cards */
 .college-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
-  justify-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: var(--space-8);
+  max-width: 800px;
   width: 100%;
+
+  @media (max-width: 768px) {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
+    max-width: 500px;
+  }
+
+  @media (max-width: 480px) {
+    gap: var(--space-4);
+  }
 }
 
-/* College cards */
 .college-card {
-  background: linear-gradient(135deg, #112D4E, #3F72AF);
-  color: #F9F7F7; /* light text */
-  width: 100%;
-  max-width: 340px;
-  padding: 2.5rem;
-  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius-2xl);
+  box-shadow: var(--shadow-xl);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   text-decoration: none;
-  transition: all 0.4s ease;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  color: var(--gray-800);
+  transition: all var(--transition-normal);
   position: relative;
   overflow: hidden;
+  animation: fadeInUp 0.8s ease-out;
+  animation-fill-mode: both;
+
+  &:nth-child(1) {
+    animation-delay: 0.2s;
+  }
+
+  &:nth-child(2) {
+    animation-delay: 0.4s;
+  }
+
+
+  &:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  
+
+
+
+    .college-card__content {
+      h2 {
+        transform: translateY(-4px);
+      }
+
+      p {
+        transform: translateY(-2px);
+      }
+    }
+  }
+
+  &:active {
+    transform: translateY(-4px) scale(1.01);
+  }
+
+  @media (max-width: 480px) {
+    &:hover {
+      transform: translateY(-4px) scale(1.01);
+    }
+  }
 }
 
-.college-card:hover {
-  transform: translateY(-10px) scale(1.03);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-}
-
-.college-card::before {
-  content: "</>";
-  position: absolute;
-  font-size: 5rem;
-  font-weight: bold;
-  color: rgba(255, 255, 255, 0.07);
-  top: 10px;
-  left: -40px;
-  transform: rotate(-20deg);
-  transition: transform 0.6s ease;
-}
-
-.college-card:hover::before {
-  transform: rotate(25deg) translateX(150%);
-}
-
-/* Card content */
 .college-card__content {
-  z-index: 2;
+  padding: var(--space-12) var(--space-8);
   position: relative;
+  z-index: 1;
+  text-align: center;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  h2 {
+    font-size: 2rem;
+    font-weight: var(--font-bold);
+    margin-bottom: var(--space-6);
+    transition: all var(--transition-normal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+
+  p {
+    font-size: var(--text-lg);
+    line-height: 1.6;
+    opacity: 0.9;
+    transition: all var(--transition-normal);
+    max-width: 280px;
+  }
+
+  @media (max-width: 768px) {
+    padding: var(--space-10) var(--space-6);
+    min-height: 180px;
+
+    h2 {
+      font-size: 1.75rem;
+      margin-bottom: var(--space-4);
+    }
+
+    p {
+      font-size: var(--text-base);
+    }
+  }
+
+  @media (max-width: 480px) {
+    padding: var(--space-8) var(--space-4);
+    min-height: 160px;
+
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: var(--space-3);
+    }
+
+    p {
+      font-size: var(--text-sm);
+    }
+  }
 }
 
-.college-card__content h2 {
-  margin-bottom: 0.5rem;
-  font-size: 1.75rem;
-}
-
-.college-card__content p {
-  font-size: 1rem;
-  color: #DBE2EF; /* accent */
-}
-
-/* Animation for title underline */
-@keyframes growLine {
+@keyframes fadeInUp {
   from {
-    width: 0;
+    opacity: 0;
+    transform: translateY(30px);
   }
   to {
-    width: 80px;
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.college-card {
+
+  &:focus {
+    outline: none;
+    animation: pulse 1s infinite;
+  }
+
+  &.loading {
+    pointer-events: none;
+    opacity: 0.7;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 20px;
+      height: 20px;
+      margin: -10px 0 0 -10px;
+      border: 2px solid var(--primary-500);
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      z-index: 2;
+    }
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: var(--shadow-xl);
+  }
+  50% {
+    box-shadow: 0 25px 50px -12px rgba(99, 102, 241, 0.3);
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.college-page {
+  min-height: 100vh;
+  padding: var(--space-12) var(--space-4) var(--space-8); 
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; 
 }
