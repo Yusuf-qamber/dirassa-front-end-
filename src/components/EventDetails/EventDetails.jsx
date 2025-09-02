@@ -15,6 +15,9 @@ const EventDetails = (props) => {
   const [editContent, setEditContent] = useState("");
 
   useEffect(() => {
+        if (!eventId || eventId === "new"){
+      setLoading(false);
+      return;}
     const fetchEvent = async () => {
       try {
         const data = await eventServics.showEvent(college, eventId);

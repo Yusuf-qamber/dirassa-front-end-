@@ -14,6 +14,9 @@ const NoteDetails = (props) => {
   const [editContent, setEditContent] = useState("");
 
   useEffect(() => {
+    if (!noteId || noteId === "new"){
+      setLoading(false);
+      return;}
     const fetchNote = async () => {
       try {
         const data = await noteService.showNote(college, noteId);

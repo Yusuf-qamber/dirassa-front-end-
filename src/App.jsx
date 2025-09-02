@@ -6,7 +6,6 @@ import { Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import * as authService from "./services/authService.js";
 import * as noteService from "./services/noteService.js";
 import { useState } from "react";
-import { useEffect, useContext } from "react";
 import Landing from "./components/Landing/Landing";
 import College from "./components/College/College.jsx";
 import NoteList from "./components/NoteList/NoteList.jsx";
@@ -23,17 +22,14 @@ const App = () => {
   const initialState = authService.getUser();
   const [user, setUser] = useState(initialState);
 
-  // const [events,setEvents]=useState([])
 
   const handleSignUp = async (formData) => {
     try {
       const res = await authService.signUp(formData);
       setUser(res);
-      // return success
+
       return { success: true };
     } catch (err) {
-      // return failure flag (then signup form can display message)
-      // add message?
       return { success: false, message: err.message };
     }
   };
@@ -47,17 +43,6 @@ const App = () => {
     const res = await authService.signIn(formData);
     setUser(res);
   };
-
-  // const handleAddNote = async (noteFormData) => {
-  //  const newNote = await noteService.create(noteFormData);
-  //   setNotes([newNote, ...notes]);
-  //   navigate('/notes');
-  // };
-
-  // const handleSubmit = (evt) => {
-  //   evt.preventDefault();
-  //   props.handleAddNote(formData);
-  // };
 
   const handleDeleteNote = async (college, noteId) => {
     try {
@@ -90,70 +75,34 @@ const App = () => {
     <>
       <NavBar user={user} handleSignOut={handleSignOut} />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/:college" element={<College />} />
-        <Route path="/:college/notes" element={<NoteList user={user} />} />
-        <Route path="/:college/notes/new" element={<NoteForm />} />
-        <Route
-          path="/:college/notes/:noteId"
-          element={
-            <NoteDetails user={user} handleDeleteNote={handleDeleteNote} />
-          }
-        />
+        
+        {/* protected routes */}
+        {user ?(
+          <>
+           <Route path="/:college/notes/new" element={<NoteForm />} />
+          <Route path="/:college/events/new" element={<EventForm />} />
+          <Route path="/:college/notes/:noteId/edit" element={<NoteForm handleUpdateNote={handleUpdateNote} />}/>
+          <Route path="/:college/events/:eventId/edit" element={<EventForm handleUpdateEvent={handleUpdateEvent} />}/>
+          </>
+          
+          ):(
+            // Puplic routes
+            <>
+              <Route path="/" element={<Landing />} />
+              <Route path="/:college" element={<College />} />
+              <Route path="/:college/notes" element={<NoteList user={user} />} />
+              <Route path="/:college/notes/:noteId" element={<NoteDetails user={user} handleDeleteNote={handleDeleteNote} />}/>
+              <Route path="/:college/events/:eventId"element={<EventDetails user={user} handleDeleteEvent={handleDeleteEvent} /> } />
+              <Route path="/:college/events" element={<EventList user={user} />} />
+              <Route path="/sign-up" element={<SignUp handleSignUp={handleSignUp} user={user} />}/>
+              <Route path="/sign-in"element={<SignIn handleSignIn={handleSignIn} user={user} />} />
 
-        <Route
-          path="/:college/events/:eventId"
-          element={
-            <EventDetails user={user} handleDeleteEvent={handleDeleteEvent} />
-          }
-        />
-
-        <Route
-          path="/:college/notes/:noteId/edit"
-          element={<NoteForm handleUpdateNote={handleUpdateNote} />}
-        />
-
-        <Route path="/:college/events" element={<EventList user={user} />} />
-
-        <Route path="/:college/events/new" element={<EventForm />} />
-
-        <Route
-          path="/:college/events/:eventId/edit"
-          element={<EventForm handleUpdateEvent={handleUpdateEvent} />}
-        />
-        <Route
-          path="/sign-up"
-          element={<SignUp handleSignUp={handleSignUp} user={user} />}
-        />
-        <Route
-          path="/sign-in"
-          element={<SignIn handleSignIn={handleSignIn} user={user} />}
-        />
-        <Route path="/404" element={<h1>404 Not Found</h1>} />
-
-        <Route path="*" element={<Navigate to="/404" replace />} />
+            </>
+          )}
+              <Route path="/404" element={<h1>404 Not Found</h1>} />
+              <Route path="*" element={<Navigate to="/404" replace />} />
       </Routes>
     </>
-
-    // <>
-    //   <NavBar user={user} handleSignOut={handleSignOut} />
-    //   <Routes>
-    //     <Route path="/" element={<h1>Hello World!</h1>} />
-    //     {!user && (
-    //       <>
-    //         <Route
-    //           path="/sign-up"
-    //           element={<SignUp handleSignUp={handleSignUp} />}
-    //         />
-    //         <Route
-    //           path="/sign-in"
-    //           element={<SignIn handleSignIn={handleSignIn} />}
-    //         />
-    //       </>
-    //     )}
-    //     <Route path="*" element={<h1>404</h1>} />
-    //   </Routes>
-    // </>
   );
 };
 
