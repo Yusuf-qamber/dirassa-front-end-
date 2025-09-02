@@ -13,7 +13,7 @@ const MapBox = ({ coordinates, onLocationChange, readOnly = false }) => {
   }, [coordinates]);
 
   const handleMarkerChange = (lat, lng) => {
-    if (readOnly) return; // prevent changes if readOnly
+    if (readOnly) return; 
     setCoords({ lat, lng });
     if (onLocationChange) onLocationChange({ lat, lng });
   };

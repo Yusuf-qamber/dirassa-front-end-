@@ -3,7 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import * as eventServices from "../../services/eventServics";
 import MapBox from "../MapBox/MapBox.jsx";
 import 'mapbox-gl/dist/mapbox-gl.css';
-
+import './EventForm.scss';
 const EventForm = (props) => {
   const navigate = useNavigate();
   const { college, eventId } = useParams();
@@ -52,54 +52,36 @@ const EventForm = (props) => {
   };
 
   return (
-    <main>
-      <form onSubmit={handleSubmit}>
-        <h1>{eventId ? "Edit Event" : "Add an Event"}</h1>
+<main className="event-form-container">
+  <form onSubmit={handleSubmit}>
+    <h1>{eventId ? "Edit Event" : "Add an Event"}</h1>
 
-        <label htmlFor="title">Title</label>
-        <input
-          required
-          type="text"
-          name="title"
-          id="title"
-          value={formData.title}
-          onChange={handleChange}
-        />
+    <label htmlFor="title">Title</label>
+    <input name="title" value={formData.title} onChange={handleChange} required />
 
-        <label htmlFor="description">Description</label>
-        <textarea
-          required
-          name="description"
-          id="description"
-          value={formData.description}
-          onChange={handleChange}
-        />
+    <label htmlFor="description">Description</label>
+    <textarea name="description" value={formData.description} onChange={handleChange} required />
 
-        <label htmlFor="location">Location coordinate: </label>
-        <input
-          required
-          type="text"
-          name="location"
-          id="location"
-          value={formData.location}
-          onChange={handleChange}
-          disabled={true}
-        />
+    <label htmlFor="location">Location coordinate</label>
+    <input name="location" value={formData.location} disabled />
 
-        <MapBox
-          coordinates={formData.coordinates}
-          onLocationChange={(coords) => {
-            setFormData({
-              ...formData,
-              coordinates: coords,
-              location: `${coords.lat.toFixed(6)},${coords.lng.toFixed(6)}`,
-            });
-          }}
-        />
+    <div className="mapbox-container">
+      <MapBox
+        coordinates={formData.coordinates}
+        onLocationChange={(coords) =>
+          setFormData({
+            ...formData,
+            coordinates: coords,
+            location: `${coords.lat.toFixed(6)},${coords.lng.toFixed(6)}`,
+          })
+        }
+      />
+    </div>
 
-        <button type="submit">SUBMIT</button>
-      </form>
-    </main>
+    <button type="submit">SUBMIT</button>
+  </form>
+</main>
+
   );
 };
 

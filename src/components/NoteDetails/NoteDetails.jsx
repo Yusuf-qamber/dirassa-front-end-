@@ -123,7 +123,7 @@ const NoteDetails = (props) => {
   </div>
       </div>
 
-      {/* Comments card */}
+     
       <div className="card comments-section">
         <h2>Comments</h2>
 
