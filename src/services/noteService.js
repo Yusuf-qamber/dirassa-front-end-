@@ -18,6 +18,9 @@ const index = async (college) => {
 
 const showNote = async (college, noteId) => {
   try {
+    if (!noteId || noteId === "new") {
+    throw new Error("Invalid note id");
+  }
     const token = localStorage.getItem('token')
     const res = await fetch(`${BASE_URL}/${college}/notes/${noteId}`, {
       headers: {
