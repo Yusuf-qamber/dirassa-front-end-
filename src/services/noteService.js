@@ -88,7 +88,7 @@ const deleteNote = async (noteId,college) => {
     console.log(err)
   }
 }
-// Comments Section 
+
 
 const createComment = async (college, noteId, commentFormData) => {
   const token = localStorage.getItem("token");

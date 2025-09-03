@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import 'mapbox-gl/dist/mapbox-gl.css';
 import Map, { Marker } from "react-map-gl";
 
-const DEFAULT_COORDS = { lat: 26.0667, lng: 50.5577 }; // Bahrain
+const DEFAULT_COORDS = { lat: 26.0667, lng: 50.5577 }; 
 
 const MapBox = ({ coordinates, onLocationChange, readOnly = false }) => {
   const [coords, setCoords] = useState(coordinates || DEFAULT_COORDS);

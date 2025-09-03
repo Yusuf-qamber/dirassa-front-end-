@@ -91,12 +91,12 @@
     --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1);
     --shadow-xl: 0 20px 25px -5px rgba(0,0,0,0.1);
 
-    /* Transitions */
+    
     --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-normal: 300ms cubic-bezier(0.4, 0, 0.2, 1);
     --transition-slow: 500ms cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Z-index */
+    
     --z-dropdown: 1000;
     --z-sticky: 1020;
     --z-fixed: 1030;
@@ -104,7 +104,7 @@
     --z-tooltip: 1070;
 }
 
-/* Body background uses primary/secondary blue */
+
 body {
     font-family: var(--font-family-primary);
     font-size: var(--text-base);
@@ -117,7 +117,7 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Links, headings, and buttons */
+
 a { color: var(--primary-600); text-decoration: none; transition: color var(--transition-fast); }
 a:hover { color: var(--primary-700); }
 

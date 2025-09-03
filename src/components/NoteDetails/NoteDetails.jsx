@@ -85,7 +85,7 @@ const NoteDetails = (props) => {
     <main className="note-details-container">
       
 
-      {/* Note info card */}
+      
       <div className="card note-card">
         <h1>{note.title}</h1>
         <p className="meta">
