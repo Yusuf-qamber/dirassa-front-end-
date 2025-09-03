@@ -31,11 +31,11 @@ const handleSubmit = async (evt) => {
   evt.preventDefault();
 
   if (noteId) {
-    // update
+    
     await props.handleUpdateNote(college, noteId, formData);
     navigate(`/${college}/notes/${noteId}`);
   } else {
-    // create
+    
     await noteService.createNote(formData, college);
     navigate(`/${college}/notes`);
   }
