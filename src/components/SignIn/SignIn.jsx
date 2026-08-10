@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import "./SignIn.scss";
 
 const SignIn = (props) => {
@@ -31,6 +32,29 @@ const SignIn = (props) => {
         <button type="submit">
           Sign In
         </button>
+        <div style={{marginTop:"10px"}}>
+          <GoogleLogin
+            
+            onSuccess={async (credentialResponse) => {
+              console.log(credentialResponse);
+
+              const result = await props.handleGoogleLogin(
+                credentialResponse.credential
+              );
+
+              if (result.success) {
+                navigate("/");
+              } else {
+                setError(result.message);
+              }
+            }}
+            onError={() => {
+              console.log("Login Failed");
+              setError("Google login failed");
+            }}
+            useOneTap
+          />
+        </div>
 
         <p className="toggle-text">
           Don't have an account?{" "}

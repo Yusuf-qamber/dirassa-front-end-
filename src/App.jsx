@@ -15,6 +15,7 @@ import EventList from "./components/EventList/EventList.jsx";
 import * as eventServics from "./services/eventServics.js";
 import EventDetails from "./components/EventDetails/EventDetails.jsx";
 import EventForm from "./components/EventForm/EventForm.jsx";
+import Profile from "./components/Profile/Profile.jsx";
 
 const App = () => {
   const navigate = useNavigate();
@@ -42,6 +43,19 @@ const App = () => {
     const res = await authService.signIn(formData);
     setUser(res);
   };
+
+  const handleGoogleLogin=async (credential)=>{
+    try{
+      const res=await authService.googleSignIn(credential)
+      setUser(res.user)
+      return{success:true}
+    } catch(error){
+      return{
+        success:fasle,
+        message:error.message,
+      }
+    }
+  }
 
   const handleDeleteNote = async (college, noteId) => {
     try {
@@ -78,11 +92,11 @@ const App = () => {
         <Route path="/" element={<Landing />} />
         <Route
           path="/sign-up"
-          element={<SignUp handleSignUp={handleSignUp} user={user} />}
+          element={<SignUp handleSignUp={handleSignUp} user={user} handleGoogleLogin={handleGoogleLogin}/>}
         />
         <Route
           path="/sign-in"
-          element={<SignIn handleSignIn={handleSignIn} user={user} />}
+          element={<SignIn handleSignIn={handleSignIn} user={user} handleGoogleLogin={handleGoogleLogin} />}
         />
         <Route path="/:college" element={<College />} />
         <Route path="/:college/notes" element={<NoteList user={user} />} />
@@ -105,6 +119,9 @@ const App = () => {
         {/* protected routes */}
         {user ? (
           <>
+          {/* profile route */}
+            <Route path="/profile" element={<Profile onSignOut={handleSignOut} user={user}/>}/>
+            <Route path="/profile/:userId" element={<Profile />} />
             <Route path="/:college/notes/new" element={<NoteForm />} />
             <Route path="/:college/events/new" element={<EventForm />} />
             
