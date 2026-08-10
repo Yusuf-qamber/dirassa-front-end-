@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./SignUp.scss";
-
+import { GoogleLogin } from '@react-oauth/google';
 const SignUp = (props) => {
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
@@ -45,6 +45,29 @@ const SignUp = (props) => {
         <button type="submit" disabled={formIsInvalid}>
           Sign Up
         </button>
+        <div style={{marginTop:"10px"}}>
+          <GoogleLogin
+            text="signup_with"
+            onSuccess={async (credentialResponse) => {
+              console.log(credentialResponse);
+
+              const result = await props.handleGoogleLogin(
+                credentialResponse.credential
+              );
+
+              if (result.success) {
+                navigate("/");
+              } else {
+                setError(result.message);
+              }
+            }}
+            onError={() => {
+              console.log("Login Failed");
+              setError("Google login failed");
+            }}
+            useOneTap
+          />
+        </div>
 
         <p className="toggle-text">
           Already have an account?{" "}
